@@ -14,6 +14,10 @@ snail = [
 	pg.image.load('graphics/snail/snail1.png').convert_alpha(),
 	pg.image.load('graphics/snail/snail2.png').convert_alpha()
 ]
+fly = [
+	pg.image.load('graphics/Fly/Fly1.png').convert_alpha(),
+	pg.image.load('graphics/Fly/Fly2.png').convert_alpha()
+]
 bro = [
 	pg.image.load('graphics/Player/player_stand.png').convert_alpha(),
 	pg.image.load('graphics/Player/jump.png').convert_alpha(),
