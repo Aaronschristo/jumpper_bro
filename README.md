@@ -60,6 +60,7 @@ This project is currently considered **complete** and serves its purpose as a po
 
 **Aaron S Christo**
 
+* [Instagram](https://www.instagram.com/aaronschristo/)
 * [Github](https://github.com/Aaronschristo)
 * [LinkedIn](https://www.linkedin.com/in/aaronschristo/)
 
