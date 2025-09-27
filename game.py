@@ -1,5 +1,6 @@
 import pygame as pg  
 from sys import exit
+from random import choice
 
 pg.init() 
 
@@ -40,6 +41,39 @@ class Bro(pg.sprite.Sprite):
         self.animate()
         self.jump()
 
+class Obstacle(pg.sprite.Sprite):
+    def __init__(self, type):
+        super().__init__()
+        if type == 'fly':
+            self.v = 0.05
+            self.frames = [pg.image.load('graphics/Fly/Fly1.png').convert_alpha(),
+                           pg.image.load('graphics/Fly/Fly2.png').convert_alpha()]
+            self.image = self.frames[0]
+            self.rect = self.image.get_rect(midbottom=(800, 150))
+            self.index = 0
+        else:
+            self.v = 0.0333
+            self.frames = [pg.image.load('graphics/snail/snail1.png').convert_alpha(),
+                           pg.image.load('graphics/snail/snail2.png').convert_alpha()]
+            self.image = self.frames[0]
+            self.rect = self.image.get_rect(midbottom=(800, 300))
+            self.index = 0
+
+    def move(self):
+        self.rect.left -= 8
+        if self.rect.left < -100:
+            self.kill()
+
+    def animate(self):
+        self.index += self.v
+        if self.index > len(self.frames):
+            self.index = 0
+        self.image = self.frames[int(self.index)]
+
+    def update(self):
+        self.move()
+        self.animate()
+
 
 size = WIDTH, HEIGHT = 800, 400
 
@@ -48,25 +82,22 @@ screen = pg.display.set_mode(size)
 icon = pg.image.load('graphics/icon.png').convert_alpha()
 sky = pg.image.load('graphics/sky.png').convert()
 ground = pg.image.load('graphics/ground.png').convert()
-snail = [
-	pg.image.load('graphics/snail/snail1.png').convert_alpha(),
-	pg.image.load('graphics/snail/snail2.png').convert_alpha()
-]
-fly = [
-	pg.image.load('graphics/Fly/Fly1.png').convert_alpha(),
-	pg.image.load('graphics/Fly/Fly2.png').convert_alpha()
-]
 
 bro_stand = pg.image.load('graphics/Player/player_stand.png').convert_alpha()
 
 pg.display.set_caption("Jumper Bro")
 pg.display.set_icon(icon)
 
+fps = 60
+trigger = 54
+frames = 0
+
+clock = pg.time.Clock()
+
 bro = pg.sprite.GroupSingle()
 bro.add(Bro())
 
-fps = 60
-clock = pg.time.Clock()
+obstacles = pg.sprite.Group()
 
 while True:
 	for event in pg.event.get():
@@ -74,11 +105,20 @@ while True:
 			pg.quit()
 			exit()
 
+	if trigger == frames:
+		frames = 0
+		obstacles.add(Obstacle(choice(["snail", 'snail', 'fly'])))
+
 	screen.blit(sky,(0,0))
 	screen.blit(ground,(0, 300))
 
 	bro.update()
 	bro.draw(screen)
+
+	obstacles.update()
+	obstacles.draw(screen)
+
+	frames += 1
 
 	pg.display.update()
 	clock.tick(fps)
