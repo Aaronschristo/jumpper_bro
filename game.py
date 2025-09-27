@@ -1,7 +1,19 @@
 import pygame as pg  
+from sys import exit
 
-pg.init()
+pg.init() 
 
-screen = pg.window()
+size = WIDTH, HEIGHT = 800, 400
 
-screen.setmode()
+screen = pg.display.set_mode(size)
+
+run = True
+
+while run:
+	for event in pg.event.get():
+		if event.type == pg.QUIT:
+			pg.quit()
+			exit()
+
+
+		
