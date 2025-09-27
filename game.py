@@ -109,6 +109,12 @@ while True:
 		frames = 0
 		obstacles.add(Obstacle(choice(["snail", 'snail', 'fly'])))
 
+	if pg.sprite.spritecollide(bro.sprite, obstacles, False):
+            bro.sprite.rect.bottom = 300
+            bro.sprite.velocity = 0
+            obstacles.empty()
+            break
+
 	screen.blit(sky,(0,0))
 	screen.blit(ground,(0, 300))
 
